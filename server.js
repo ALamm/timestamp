@@ -30,7 +30,7 @@ app.use(passport.session());
 
 routes(app, passport);
 
-app.all('*',function(req,res) {	
+app.all('/app',function(req,res) {	
 	timestamp(req,res);
 })
 
