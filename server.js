@@ -5,7 +5,6 @@ var routes = require('./app/routes/index.js');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var session = require('express-session');
-var timestamp = require('./app/modules/timestamp');
 
 var app = express();
 require('dotenv').load();
@@ -30,9 +29,7 @@ app.use(passport.session());
 
 routes(app, passport);
 
-app.all('/app',function(req,res) {	
-	timestamp(req,res);
-})
+
 
 var port = process.env.PORT || 8080;
 app.listen(port,  function () {
