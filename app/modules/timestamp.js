@@ -1,22 +1,19 @@
-var url = require('url');
-var moment = require('moment');  // to easily format dates
-var chrono = require('chrono-node');  // to recognize natural dates in a string (even if something like "This Friday from 13:00 - 16.00")
-
-moment().format();
-
-// checks if a date is truly valid (e.g. a date like December 32, 2014 returns false)
-function isValidDate(d) {
-	if ( Object.prototype.toString.call(d) !== "[object Date]" )
-	return false;
-	return !isNaN(d.getTime());
-}
-
 module.exports = function (req,res) {
     
-    var result = { 
-    	unix: "null", 
-    	natural: "null" 
-    };
+    var url = require('url');
+    var moment = require('moment');  // to easily format dates
+    var chrono = require('chrono-node');  // to recognize natural dates in a string (even if something like "This Friday from 13:00 - 16.00")
+    
+    var result = { unix: "null", natural: "null" };
+    
+    moment().format();
+    
+    // checks if a date is truly valid (e.g. a date like December 32, 2014 returns false)
+    function isValidDate(d) {
+    	if ( Object.prototype.toString.call(d) !== "[object Date]" )
+    	return false;
+    	return !isNaN(d.getTime());
+    }    
 
     var obj = url.parse(req.url, true);	// use the node url module to parse the req url
     var arr = obj.href.split('');  		
@@ -40,12 +37,13 @@ module.exports = function (req,res) {
     		date = moment(date).format("MMMM DD, YYYY"); //convert to natural 
     		result.unix = str;
     		result.natural = date;
-    		res.send(JSON.stringify(result));
     	}
     	else {
     		console.log("not any kind of date");
-    		res.send(JSON.stringify(result));
     	}
+		
+		res.send(JSON.stringify(result));
+		
     }
     else {  // valid natural date - according to chrono package - but still need to check if it's a valid date (e.g. dec 32,2015)
     	console.log("Double check if this is a valid date: " + str);
@@ -53,12 +51,12 @@ module.exports = function (req,res) {
     	if (isValidDate(date)) {
     		result.unix = date.getTime() / 1000;  //get unix time
     		result.natural = moment(dateEntered).format("MMMM DD, YYYY");  // convert date to the format shown
-    		res.send((result));			
     	}
     	else {
     		console.log("not a valid date");
-    		res.send(result);
     	}
+    	
+        res.send((result));	
+        
     }
-    res.end();
 };
