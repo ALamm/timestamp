@@ -32,9 +32,9 @@ module.exports = function (req,res) {
     if(dateEntered === null) {   // not a valid natural date according to chrono BUT it might be a Unix Timestamp
     	
     	console.log("invalid natural date: " + str);
-    	var regex = new RegExp(/^\d+$/); 	// string made up of only numbers
+    	var regex = new RegExp(/^\d+$/); 	// string made up of only numbers 
     	
-    	if (regex.test(str)){   // test if input is a valid unix timestamp
+    	if (regex.test(str)){   // test if input is a valid unix timestamp and should check if less than Jan 19, 2038 (year 2038 problem for Unix Timestamps)
     		console.log("but it's valid unix date: " + str);
     		var date = new Date(str*1000);
     		date = moment(date).format("MMMM DD, YYYY"); //convert to natural 
