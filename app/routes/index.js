@@ -57,7 +57,7 @@ module.exports = function (app, passport) {
 		.post(isLoggedIn, clickHandler.addClick)
 		.delete(isLoggedIn, clickHandler.resetClicks);
 		
-	app.all('*',function(req,res) {	
+	app.get('/*',function(req,res) {	
 	timestamp(req,res);
-````})	
+	})	
 };
